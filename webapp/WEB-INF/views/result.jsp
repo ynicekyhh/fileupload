@@ -12,7 +12,13 @@
 	<h1>Upload completed</h1>
 
 	<div class="result-images">
-		<img src="${pageContext.request.contextPath }/${url1 }" style="width:150px"><br>
+		<ul>
+			<c:forEach items="${urlList }" var="url">
+				<li>
+					<img src="${pageContext.request.contextPath }${url }" style="width:150px"><br>
+				</li>
+			</c:forEach>
+		</ul>
 	</div>
 
 	<p>

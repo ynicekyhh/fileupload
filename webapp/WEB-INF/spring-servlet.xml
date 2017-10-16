@@ -11,6 +11,11 @@
 	<!-- 서블릿 컨테이너의 디폴트 서블릿 위임 핸들러 -->
 	<mvc:default-servlet-handler />
 
+	<!-- resource mapping -->
+	<!-- 'file:'을 적어주면, 파일 시스템에서 검색하고 안적어주면 webapp에서 검색함 -->
+	<!-- mapping을 시켜주면 /uploads/images/의 모든 경로로 들어오는 것을 파일시스템의 /uploads에서 매핑 후 검색함 -->
+	<mvc:resources location="file:/uploads/" mapping="/uploads/images/*"/>
+	
 	<!-- validator, conversionService, messageConverter를 자동으로 등록 -->
 	<mvc:annotation-driven />
  
@@ -26,8 +31,25 @@
 		<property name="suffix" value=".jsp" />
 		<property name="order" value="1" />
 	</bean>
- 	
 
+	<!-- jsp 페이지에서 form tag로 enctype="multipart/form-data"라고 보내면, 파일이나 이미지를 여러개 업로드 할 때, --> 
+	<!-- 스프링에서 하나씩 따로따로 받을 수 있게 resolver를 지원해준다. 아래처럼 리졸버를 설정하고, 크기, 인코딩 등을 설정하고 사용할 수 있다. -->
+	<!-- 이러면 multipartResolver가 받은 파일들을 다 객체로 저장하고 있다. -->
+	<!-- 멀티파트 리졸버 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+
+		<!-- 최대업로드 가능한 바이트크기 -->
+		<property name="maxUploadSize" value="52428800" />
+
+		<!-- 디스크에 임시 파일을 생성하기 전에 메모리에 보관할수있는 최대 바이트 크기 -->
+		<!-- property name="maxInMemorySize" value="52428800" / -->
+
+		<!-- defaultEncoding -->
+		<property name="defaultEncoding" value="utf-8" />
+
+	</bean>
+	
 	
 
 </beans>
